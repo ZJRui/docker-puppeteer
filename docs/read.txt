@@ -1,0 +1,30 @@
+## Setting Up Chrome Linux Sandbox
+
+In order to protect the host environment from untrusted web content, Chrome uses
+[multiple layers of sandboxing](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/linux/sandboxing.md).
+For this to work properly, the host should be configured first. If there's no
+good sandbox for Chrome to use, it will crash with the error
+`No usable sandbox!`.
+
+If you **absolutely trust** the content you open in Chrome, you can launch
+Chrome with the `--no-sandbox` argument:
+
+```ts
+const browser = await puppeteer.launch({
+  args: ['--no-sandbox', '--disable-setuid-sandbox'],
+});
+```
+
+为了保护主机环境不受不可信网页内容的影响，Chrome 使用
+
+[多层沙箱]( https://chromium.googlesource.com/chromium/src/+/head/docs/linux/sandboxing.md )。
+
+为了使其正常工作，应该首先配置主机。如果没有
+
+对于 Chrome 来说是一个很好的沙盒，它会因为错误而崩溃
+
+没有可用的沙坑。
+
+如果你完全信任你在 Chrome 中打开的内容，你可以启动
+
+带有“—— no-sandbox”论调的 Chrome:

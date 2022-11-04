@@ -65,6 +65,15 @@ const puppeteer = require('puppeteer');
 docker run --shm-size 1G --rm -v <path_to_script>:/app/index.js alekzonder/puppeteer:latest
 ```
 
+我们使用：docker run -it --name dockerPuppeteer alekzonder/puppeteer:latest  /bin/bash 
+命令创建一个容器， docker run  中指定的 /bin/bash 命令将会替换docker file 中默认的cmd，因此相当于是创建容器并 执行 "/usr/bin/dumb-init -- /bin/bash" ,其中“/usr/bin/dumb-init -- ”部分是dockerfile中的entrypoint。 然后进入容器后 会发现当前的用户是pptruser 当前的目录是 /app, /app目录下没有任何文件。
+所以我们可以将本机的 js文件目录映射到 /app目录下。
+
+问题：-v <path_to_script>:/app/index.js  -v一般我们都是指定主机文件夹映射到 容器文件夹，为什么这里是映射到
+容器的某一个文件呢？ 主要是我们在 dockerfile中指定了默认的 cmd 是 node index.js ，所以容器默认会执行
+node index.js 。所以我们要将本地文件映射到容器文件。
+
+
 3. If you're seeing random navigation errors (unreachable url) it's likely due to ipv6 being enabled in docker. Navigation errors are caused by ERR_NETWORK_CHANGED (-21) in chromium. Disable ipv6 in your container using `--sysctl net.ipv6.conf.all.disable_ipv6=1` to fix:
 ```bash
 docker run --shm-size 1G --sysctl net.ipv6.conf.all.disable_ipv6=1 --rm -v <path_to_script>:/app/index.js alekzonder/puppeteer:latest
