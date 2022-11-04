@@ -114,6 +114,7 @@ docker run --shm-size 1G --rm \
  alekzonder/puppeteer:latest \
  node my_script.js
 ```
+使用  node my_script.js 命令替换dockerfile中默认的cmd
 
 ## screenshots tools
 
@@ -138,6 +139,9 @@ docker run --shm-size 1G --rm -v /tmp/screenshots:/screenshots \
 docker run --shm-size 1G --rm -v /tmp/screenshots:/screenshots \
  alekzonder/puppeteer:latest \
  screenshot 'https://www.google.com' 1366x768
+
+ 使用  screenshot 'https://www.google.com' 1366x768 命令替换默认的cmd，其中 为什么这里可以直接执行screenshot？ 因为dockerfile中我们将 screenshot.sh 添加到了path目录。 
+ 且将本地项目的screentshot拷贝到了 镜像中，所以容器中会存在 screenshot脚本
 ```
 
 output: one line json
