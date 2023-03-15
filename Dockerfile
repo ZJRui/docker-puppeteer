@@ -11,7 +11,18 @@ wget https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_
 dpkg -i dumb-init_*.deb && rm -f dumb-init_*.deb && \
 apt-get clean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
+
+
+
+# 在镜像中全局 安装puppetter。 alekzonder/puppeteer 镜像中已经安装好了puppeteer chrome nodejs， 因此我们不需要在 容器的 /app 目录下 npm install puppeteer.  
+#假设开发项目使用到了 puppeteer 和dotenv两个npm依赖。 我们只需要将项目的源代码拷贝到 容器的/app目录下（容器的/app目录映射到了主机的某一个路径，假设是/root/app/testApp），
+#然后在/root/app/testApp下nmp init -y 创建package.json，然后npm install dotenv ，不需要在项目路径下安装 npm install puppeteer，puppeteer已经在镜像中全局安装了.
+# 目前最新的puppettter是  "puppeteer": "^19.7.4", 
 RUN yarn global add puppeteer@1.20.0 && yarn cache clean
+
+
+
+
 # ${NODE_PATH}表示读取运行环境变量
 ENV NODE_PATH="/usr/local/share/.config/yarn/global/node_modules:${NODE_PATH}"
 
